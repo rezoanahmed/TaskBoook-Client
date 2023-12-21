@@ -5,6 +5,6 @@ export const routes = createBrowserRouter([
     {
         path: "/",
         element: <App></App>,
-        errorElement: <div className="flex h-screen justify-center items-center"><p>404 Error!</p></div>
+        errorElement: <div className="flex h-screen justify-center items-center"><p className="text-6xl font-bold">404 Error!</p></div>
     }
 ])
