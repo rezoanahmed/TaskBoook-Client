@@ -1,14 +1,16 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { FirebaseContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 
 
 const Login = () => {
-    const { googleLogin, login } = useContext(FirebaseContext);
+    const { googleLogin, login, user } = useContext(FirebaseContext);
     // google signin
+    // console.log(user);
+    const navigate = useNavigate();
     const handleGoogleLogin = () => {
         googleLogin()
             .then(result => {
@@ -17,10 +19,11 @@ const Login = () => {
                     Swal.fire({
                         position: "center",
                         icon: "success",
-                        title: "Login Succeeded, Welcome!",
+                        title: `Login Succeeded, Welcome ${user?.displayName || "User"}`,
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    navigate("/dashboard");
                 }
             })
             .catch(err => {
@@ -50,17 +53,18 @@ const Login = () => {
                     Swal.fire({
                         position: "center",
                         icon: "success",
-                        title: "Login Succeeded, Welcome!",
+                        title: `Login Succeeded, Welcome ${user?.displayName || "User"}`,
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    navigate("/dashboard");
                 }
             })
             .catch(err => {
                 // console.log(err);
                 if (err) {
                     Swal.fire({
-                        position: "top-end",
+                        position: "center",
                         icon: "error",
                         title: "Something went wrong!",
                         showConfirmButton: false,

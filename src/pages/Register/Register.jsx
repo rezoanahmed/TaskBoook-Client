@@ -1,6 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { FirebaseContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 const Register = () => {
     const { googleLogin, register } = useContext(FirebaseContext);
+    const navigate = useNavigate();
     // google sign in
     const handleGoogleLogin = () => {
         googleLogin()
@@ -21,6 +22,7 @@ const Register = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    navigate("/dashboard");
                 }
             })
             .catch(err => {
@@ -55,6 +57,7 @@ const Register = () => {
                     showConfirmButton: false,
                     timer: 1500
                   });
+                  navigate("/login");
             }
         })
         .catch(err=>{
