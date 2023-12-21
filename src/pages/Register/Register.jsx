@@ -1,9 +1,74 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { FirebaseContext } from "../../context/AuthContext";
+import Swal from "sweetalert2";
 
 
 const Register = () => {
+    const { googleLogin, register } = useContext(FirebaseContext);
+    // google sign in
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then(result => {
+                // console.log(result.user.email);
+                if (result.user.email) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Login Succeeded, Welcome!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(err => {
+                // console.log(err);
+                if(err){
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Something went wrong!",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                }
+            })
+    }
+
+    // registration with email and password
+    const handleRegister = e =>{
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        // const result = {email, password};
+        // console.log(result);
+        register(email, password)
+        .then(result=>{
+            if(result.user.email){
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Registration Succeeded!",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            }
+        })
+        .catch(err=>{
+            if(err){
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Something went wrong!",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            }
+        })
+    }
     return (
         <div>
             <div className="hero min-h-screen" style={{ backgroundImage: 'url(https://images.pexels.com/photos/4560079/pexels-photo-4560079.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)' }}>
@@ -14,9 +79,9 @@ const Register = () => {
                             <h1 className="font-bold text-4xl">Login Today and Elevate your effeciency!</h1>
                         </div>
                         <div className="bg-black p-6 bg-opacity-50 shadow-xl rounded-md">
-                            <form className="flex flex-col gap-2">
-                                <input type="text" className="input input-lg input-ghost bg-black bg-opacity-50" placeholder="user@email.com" />
-                                <input type="text" className="input input-lg input-ghost bg-black bg-opacity-50" placeholder="password" />
+                            <form onSubmit={handleRegister} className="flex flex-col gap-2">
+                                <input name="email" type="text" className="input input-lg input-ghost bg-black bg-opacity-50" placeholder="user@email.com" />
+                                <input name="password" type="password" className="input input-lg input-ghost bg-black bg-opacity-50" placeholder="password" />
                                 <input type="submit" value="Register" className="btn btn-md" />
                             </form>
                             <div>
@@ -24,7 +89,7 @@ const Register = () => {
                             </div>
                             <div className="divider">Or</div>
                             <div className="flex justify-center items-center gap-2">
-                                <button className="btn btn-circle text-2xl"><FcGoogle></FcGoogle></button>
+                                <button onClick={handleGoogleLogin} className="btn btn-circle text-2xl"><FcGoogle></FcGoogle></button>
                                 <button className="btn btn-circle text-2xl text-blue-500"><FaFacebook></FaFacebook></button>
                             </div>
                         </div>
