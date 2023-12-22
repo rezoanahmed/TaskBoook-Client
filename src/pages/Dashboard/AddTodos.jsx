@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import AuthContext, { FirebaseContext } from "../../context/AuthContext";
+import { FirebaseContext } from "../../context/AuthContext";
 
 const AddTodos = () => {
     const {user} = useContext(FirebaseContext);

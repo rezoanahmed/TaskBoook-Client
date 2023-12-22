@@ -19,7 +19,7 @@ const Login = () => {
                     Swal.fire({
                         position: "center",
                         icon: "success",
-                        title: `Login Succeeded, Welcome ${user?.displayName || "User"}`,
+                        title: `Login Succeeded, Welcome!`,
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -53,7 +53,7 @@ const Login = () => {
                     Swal.fire({
                         position: "center",
                         icon: "success",
-                        title: `Login Succeeded, Welcome ${user?.displayName || "User"}`,
+                        title: `Login Succeeded, Welcome!`,
                         showConfirmButton: false,
                         timer: 1500
                     });
