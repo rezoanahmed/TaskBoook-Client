@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 
 const Login = () => {
-    const { googleLogin, login, user } = useContext(FirebaseContext);
+    const { googleLogin, login } = useContext(FirebaseContext);
     // google signin
     // console.log(user);
     const navigate = useNavigate();

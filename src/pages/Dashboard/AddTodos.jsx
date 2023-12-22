@@ -1,8 +1,11 @@
 import { useContext } from "react";
 import { FirebaseContext } from "../../context/AuthContext";
+import useAxios from "../../hooks/useAxios";
+import Swal from "sweetalert2";
 
 const AddTodos = () => {
     const {user} = useContext(FirebaseContext);
+    const axiosPublic = useAxios();
     const handleAddTodo = e =>{
         e.preventDefault();
         const form = e.target;
@@ -10,10 +13,25 @@ const AddTodos = () => {
         const description = form.description.value;
         const deadline = form.deadline.value;
         const priority = form.priority.value;
+        const deadline_time = form.deadline_time.value;
         const result = {
-            title, description, deadline, priority, user: user?.email,
+            title, description, deadline, deadline_time, priority, user: user?.email, status: "pending"
         }
-        console.log(result);
+        // console.log(result);
+        axiosPublic.post("/todos", result)
+        .then(result=>{
+            // console.log(result.data.acknowledged);
+            if(result.data.acknowledged){
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Task has been added!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                form.reset();
+            }
+        })
     }
     return (
         <div>
@@ -24,6 +42,7 @@ const AddTodos = () => {
                         <input name="title" type="text" className="input input-bordered" placeholder="Task Title" />
                         <input name="description" type="text" className="input input-bordered" placeholder="Task Description" />
                         <input name="deadline" type="date" className="input input-bordered" />
+                        <input name="deadline_time" type="time" className="input input-bordered" />
                         <select name="priority" className="select select-bordered">
                             <option disabled selected>Select Priority</option>
                             <option value='low'>Low</option>
