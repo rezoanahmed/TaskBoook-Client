@@ -8,7 +8,7 @@ const TodosCard = ({ todo }) => {
     const axiosPublic = useAxios();
     const handleDelete = (id) => {
         Swal.fire({
-            title: "Are you sure?",
+            title: "Have you completed your task?",
             text: "",
             icon: "warning",
             showCancelButton: true,
@@ -17,12 +17,40 @@ const TodosCard = ({ todo }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosPublic.delete(`/todos/${_id}`)
+                axiosPublic.patch(`/todos/${id}`)
                     .then(result => {
                         if (result) {
                             Swal.fire({
                                 title: "Deleted!",
                                 text: "Task has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+
+            }
+        });
+
+
+
+    }
+    const handleComplete = (id) => {
+        Swal.fire({
+            title: "Have you completed the task?",
+            text: "",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Completed!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosPublic.patch(`/todos/${id}`)
+                    .then(result => {
+                        if (result) {
+                            Swal.fire({
+                                title: "Task has been added to completed list!",
+                                text: "",
                                 icon: "success"
                             });
                         }
@@ -44,7 +72,7 @@ const TodosCard = ({ todo }) => {
                     <button onClick={() => handleDelete(_id)} className="btn btn-circle btn-error">
                         <FaTrash></FaTrash>
                     </button>
-                    <button className="btn btn-circle btn-success">
+                    <button onClick={()=> handleComplete(_id)} className="btn btn-circle btn-success">
                         <FaCheck></FaCheck>
                     </button>
                 </div>
