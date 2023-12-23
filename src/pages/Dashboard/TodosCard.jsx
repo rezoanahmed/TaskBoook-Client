@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 
 const TodosCard = ({ todo }) => {
-    const { title, deadline, description, deadline_time, _id } = todo;
+    const { title, deadline, description, deadline_time, _id, status } = todo;
     const axiosPublic = useAxios();
     const handleDelete = (id) => {
         Swal.fire({
@@ -40,7 +40,7 @@ const TodosCard = ({ todo }) => {
                 <p className="text-xl font-medium">{title}</p>
                 <p className="text-sm">{description}</p>
                 <p>{deadline} {deadline_time}</p>
-                <div className="flex gap-2">
+                <div className={`${status == "completed"? "hidden" : "flex gap-2"}`}>
                     <button onClick={() => handleDelete(_id)} className="btn btn-circle btn-error">
                         <FaTrash></FaTrash>
                     </button>
